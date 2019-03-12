@@ -1,14 +1,50 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <router-view></router-view>
   </div>
 </template>
 
+<script>
+	// @ is an alias to /src
+	// import HelloWorld from '@/components/HelloWorld.vue'
+
+	import { requestPost } from './http';
+
+		export default {
+		name: 'app',
+		data() {
+
+			return {
+				showQrcode: false,
+                carouselList: [],
+			}
+		},
+		methods: {
+			showQrcodeFun(show) {
+				this.showQrcode = show;
+			},
+			goRouter (router) {
+				this.$router.push(router);
+			},
+            getCarouselList () {
+                requestPost('/bonuoni/getCarouselList', {}).then(result => {
+                    this.carouselList = result.data.data;
+                });
+            }
+		},
+		components: {
+
+		},
+        mounted () {
+			this.$nextTick(() => {
+				// this.getCarouselList();
+            })
+        }
+	}
+</script>
+
 <style lang="scss">
+  @import "./style/home.scss";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

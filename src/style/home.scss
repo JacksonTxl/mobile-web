@@ -1,0 +1,23 @@
+html,body{
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  overflow: auto;
+  background: #eee;
+  font-size: 14px;
+}
+
+ul>li{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.home{
+  >header{
+    height: 140px;
+  }
+  >section{
+    text-align: left;
+  }
+}

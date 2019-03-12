@@ -1,18 +1,75 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header>
+      <mt-swipe :auto="4000">
+        <mt-swipe-item style="background: aliceblue;padding: 20px">1</mt-swipe-item>
+        <mt-swipe-item style="background: #333;padding: 20px">2</mt-swipe-item>
+        <mt-swipe-item style="background: red;padding: 20px">3</mt-swipe-item>
+      </mt-swipe>
+    </header>
+    <section>
+      <label>个人信息</label>
+      <mt-cell title="ID" :value="user.id"></mt-cell>
+      <mt-cell title="等级" :value="user.level_num"></mt-cell>
+      <mt-cell title="姓名" :value="user.user_name"></mt-cell>
+      <mt-cell title="账户名" :value="user.account"></mt-cell>
+    </section>
+    <section>
+      <label>设置</label>
+      <mt-cell title="帮助注册" is-link to="/register" ></mt-cell>
+      <mt-cell title="申请升级" is-link to="/update" ></mt-cell>
+      <mt-cell title="审核升级" is-link to="/verify" ></mt-cell>
+      <mt-cell title="我的团队" is-link to="/team" ></mt-cell>
+    </section>
+    <section>
+      <label>帮助</label>
+      <mt-cell title="修改信息" is-link to="/setting" ></mt-cell>
+      <mt-cell title="联系客服" is-link to="/service" ></mt-cell>
+    </section>
+    <footer style="padding: 0 20px;">
+      <mt-button type="danger" style="margin: 15px 0;width: 100%;" @click="logOut()">退出登录</mt-button>
+    </footer>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { CookieUtil } from '../util/CookieUtil';
+import {TipsUtil} from "../util/TipsUtil";
 
 export default {
   name: 'home',
+  data() {
+    return {
+      user: {},
+      showQrcode: false
+    }
+  },
+  methods: {
+    logOut() {
+      this.user = {};
+      CookieUtil.deleteCookie('user');
+      CookieUtil.deleteCookie('parent');
+      this.goRouter('login');
+    },
+    goRouter (router) {
+      this.$router.push(router);
+    }
+  },
   components: {
-    HelloWorld
+
+  },
+  mounted () {
+  	this.$nextTick(() => {
+       this.user = JSON.parse(CookieUtil.getCookie('user'));
+       if (!this.user) {
+       	  TipsUtil.alert('请先登录', () => {
+       	  	this.goRouter('login');
+          })
+       }
+    })
   }
 }
 </script>
+<style lang="scss" type="text/css">
+</style>
