@@ -1,12 +1,16 @@
 <template>
   <div class="setting-pwd-info">
     <mt-header title="修改密码">
-      <router-link to="/setting" slot="left">
+      <router-link to="/setting" slot="left" v-if="flag">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+      <router-link to="/login" slot="left" v-if="!flag">
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
     <section>
-      <mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="user.account" readonly></mt-field>
+      <mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="user.account" readonly v-if="flag"></mt-field>
+      <mt-field label="手机号" placeholder="请输入手机号" type="tel" v-model="user.account" v-if="!flag"></mt-field>
       <mt-field label="验证码" v-model="user.msg">
         <mt-button @click="sendCode()" :disabled="isSend">{{label}}</mt-button>
       </mt-field>
@@ -31,6 +35,7 @@ export default {
   name: 'setting-pwd',
   data() {
     return {
+    	flag: false,
     	isSend: false,
     	timer: '',
     	label: '发送验证码',
@@ -77,9 +82,12 @@ export default {
       }
       requestPut(`/membermanage/users/info`, this.user).then(result => {
           if (result.data.code === '200') {
-              TipsUtil.alert('修改成功!', this.goRouter('setting'));
+            CookieUtil.deleteCookie('user');
+            CookieUtil.deleteCookie('admin');
+            CookieUtil.deleteCookie('parent');
+            TipsUtil.alert('修改成功!', this.goRouter('login'));
           } else {
-              TipsUtil.alert(result.data.message);
+            TipsUtil.alert(result.data.message);
           }
       });
     },
@@ -95,6 +103,9 @@ export default {
     this.$nextTick(() => {
         const user = JSON.parse(CookieUtil.getCookie('user'));
         this.user.account = user.account;
+        if (user.account) {
+        	this.flag = true;
+        }
     })
   }
 }

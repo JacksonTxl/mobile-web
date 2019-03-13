@@ -5,7 +5,7 @@
     </header>
     <section>
       <p>靓大夫会员管理系统</p>
-      <mt-field label="登录名" placeholder="请输入姓名" v-model="account"></mt-field>
+      <mt-field label="登录名" placeholder="请输入登录账号" v-model="account"></mt-field>
       <mt-field label="登录密码" placeholder="请输入密码" v-model="password" type="password"></mt-field>
     </section>
     <footer style="padding: 0 20px;">
@@ -26,14 +26,19 @@ export default {
   name: 'login',
   data() {
     return {
-      account: '666',
-      password: '999',
+      account: '',
+      password: '',
     }
   },
   methods: {
     login() {
+      if (!this.account || !this.password) {
+      	TipsUtil.alert('请输入正确的登录信息！');
+      	return;
+      }
       requestGet(`/membermanage/users/${this.account}/${this.password}`, {}).then(result => {
       	if (result.data.code === '200') {
+      	  CookieUtil.deleteCookie('user');
           CookieUtil.setCookie('user', JSON.stringify(result.data.info), 24*60*60*1000);
           this.goRouter('home');
         } else {

@@ -20,7 +20,7 @@
 import { Field } from 'mint-ui';
 import { Header } from 'mint-ui';
 import {TipsUtil} from "../util/TipsUtil";
-import {requestPut} from "../http";
+import {requestGet, requestPut} from "../http";
 import {CookieUtil} from "../util/CookieUtil";
 
 
@@ -44,9 +44,13 @@ export default {
       }
       requestPut(`/membermanage/users/info`, this.user).then(result => {
           if (result.data.code === '200') {
-              TipsUtil.alert('修改成功!');
+            CookieUtil.deleteCookie('user');
+            CookieUtil.setCookie('user', JSON.stringify(result.data.info), 24*60*60*1000);
+            TipsUtil.alert('修改成功!', () => {
+              this.goRouter('setting');
+            });
           } else {
-              TipsUtil.alert(result.data.message);
+            TipsUtil.alert(result.data.message);
           }
       });
     },

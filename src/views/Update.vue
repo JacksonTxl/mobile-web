@@ -48,11 +48,18 @@ export default {
     getParentInfo() {
       requestGet(`/membermanage/level/${this.account}`, {}).then(result => {
         if (result.data.code === '200') {
-          CookieUtil.setCookie('parent', JSON.stringify(result.data.parentInfo[0]));
+          CookieUtil.deleteCookie('parent');
+          CookieUtil.deleteCookie('admin');
+          CookieUtil.setCookie('parent', JSON.stringify(result.data.parentInfo));
+          CookieUtil.setCookie('admin', JSON.stringify(result.data.adminInfo));
           this.update.currentLevel = result.data.info.currentLevel;
           this.update.nextLevel = result.data.info.nextLevel;
         } else if (result.data.code === '501') {
           this.isUpdated = true;
+          CookieUtil.deleteCookie('parent');
+          CookieUtil.deleteCookie('admin');
+          CookieUtil.setCookie('parent', JSON.stringify(result.data.parentInfo));
+          CookieUtil.setCookie('admin', JSON.stringify(result.data.adminInfo));
           this.update.currentLevel = result.data.info.currentLevel;
           this.update.nextLevel = result.data.info.nextLevel;
         } else {
@@ -71,7 +78,7 @@ export default {
       };
       requestPut(`/membermanage/level`, params).then(result => {
         if (result.data.code === '200') {
-          TipsUtil.alert('修改成功!');
+          TipsUtil.alert('提交成功!');
           this.goRouter('home');
         } else {
           TipsUtil.alert(result.data.message);

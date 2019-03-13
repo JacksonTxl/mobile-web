@@ -2,7 +2,7 @@ module.exports = {
 	devServer: {
 		proxy: {
 			'/membermanage': {
-				target: 'http://u82yp5.natappfree.cc/',
+				target: 'http://6c84n7.natappfree.cc/',
 				changeOrigin: true,
 			}
 		}

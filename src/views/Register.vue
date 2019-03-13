@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     commit() {
-      if (!this.register.userPassword && this.register.userPassword !== this.register.confirmPassword) {
+      if (!this.register.userPassword || this.register.userPassword !== this.register.confirmPassword) {
       	TipsUtil.alert('请正确密码信息!');
       	return;
       }
@@ -71,7 +71,7 @@ export default {
     this.$nextTick(() => {
       this.user = JSON.parse(CookieUtil.getCookie('user'));
       this.register.parentId = this.user.id;
-      this.register.parentAccount = this.user.account;
+      this.register.parentAccount = '推荐码：' + this.user.account;
     })
   }
 }

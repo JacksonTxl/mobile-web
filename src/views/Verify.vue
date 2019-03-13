@@ -16,7 +16,8 @@
         <li v-for="item in list" :key="item.id">
           <div class="first">
             <label>姓名：{{item.bereviewName}}</label>
-            <label>当前等级：{{item.currentLevel}}</label>
+            <label></label>
+            <!--<label>当前等级：{{item.currentLevel}}</label>-->
           </div>
           <div class="last">
             <label>电话：{{item.bereviewAcc}}</label>

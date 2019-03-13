@@ -10,14 +10,15 @@
     <section>
       <label>个人信息</label>
       <mt-cell title="ID" :value="user.id"></mt-cell>
-      <mt-cell title="等级" :value="user.level_num"></mt-cell>
+      <mt-cell title="等级" :value="user.level_name"></mt-cell>
       <mt-cell title="姓名" :value="user.user_name"></mt-cell>
       <mt-cell title="账户名" :value="user.account"></mt-cell>
     </section>
     <section>
       <label>设置</label>
       <mt-cell title="帮助注册" is-link to="/register" ></mt-cell>
-      <mt-cell title="申请升级" is-link to="/update" ></mt-cell>
+      <mt-cell title="申请升级" is-link to="/update" v-if="user.role_id != 2"></mt-cell>
+      <mt-cell title="申请升级" v-else></mt-cell>
       <mt-cell title="审核升级" is-link to="/verify" ></mt-cell>
       <mt-cell title="我的团队" is-link to="/team" ></mt-cell>
     </section>

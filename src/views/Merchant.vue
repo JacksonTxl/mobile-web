@@ -5,12 +5,17 @@
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
-    <section>
-      <div>
-        <p>姓名：{{parent.user_name}}</p>
-        <p>手机号：{{parent.account}}</p>
-        <p>微信号：{{parent.wei_xin}}</p>
-      </div>
+    <section v-if="admin && admin.id">
+      <label>管理员信息</label>
+      <mt-cell title="姓名" :value="admin.user_name"></mt-cell>
+      <mt-cell title="手机号" :value="admin.account"></mt-cell>
+      <mt-cell title="微信号" :value="admin.wei_xin"></mt-cell>
+    </section>
+    <section v-if="parent && parent.id">
+      <label>上级商家信息</label>
+      <mt-cell title="姓名" :value="parent.user_name"></mt-cell>
+      <mt-cell title="手机号" :value="parent.account"></mt-cell>
+      <mt-cell title="微信号" :value="parent.wei_xin"></mt-cell>
     </section>
 
   </div>
@@ -18,9 +23,6 @@
 
 <script>
 // @ is an alias to /src
-import { Header } from 'mint-ui';
-import { Field } from 'mint-ui';
-import { Button } from 'mint-ui';
 import {CookieUtil} from "../util/CookieUtil";
 
 export default {
@@ -28,7 +30,8 @@ export default {
   data() {
 
     return {
-      parent: {}
+      parent: {},
+      admin: {}
     }
   },
   methods: {
@@ -40,20 +43,18 @@ export default {
     }
   },
   components: {
-    Header,
-    Field,
-    Button,
   },
   mounted () {
       this.$nextTick(() => {
           this.parent = JSON.parse(CookieUtil.getCookie('parent'));
+          this.admin = JSON.parse(CookieUtil.getCookie('admin'));
       })
   }
 }
 </script>
 <style lang="scss" type="text/scss">
   .merchant{
-    background: white;
+    text-align: left;
 
   }
 </style>
