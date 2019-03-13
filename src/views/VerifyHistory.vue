@@ -57,7 +57,7 @@ export default {
     getList() {
       requestGet(`/membermanage/level/list/${this.user.account}`, {}).then(result => {
         if (result.data.code === '200') {
-          this.list = result.data.handle;
+          this.list = result.data.history;
         } else {
           TipsUtil.alert(result.data.message);
 

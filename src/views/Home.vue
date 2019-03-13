@@ -2,9 +2,12 @@
   <div class="home">
     <header>
       <mt-swipe :auto="4000">
-        <mt-swipe-item style="background: aliceblue;padding: 20px">1</mt-swipe-item>
-        <mt-swipe-item style="background: #333;padding: 20px">2</mt-swipe-item>
-        <mt-swipe-item style="background: red;padding: 20px">3</mt-swipe-item>
+        <mt-swipe-item>
+          <img src="../assets/images/lunbo/1.jpeg" style="height: 140px;width: 100%">
+        </mt-swipe-item>
+        <mt-swipe-item>
+          <img src="../assets/images/lunbo/2.jpeg" style="height: 140px;width: 100%">
+        </mt-swipe-item>
       </mt-swipe>
     </header>
     <section>

@@ -80,7 +80,7 @@ export default {
 	      TipsUtil.alert('两次输入密码不一致!');
 	      return;
       }
-      requestPut(`/membermanage/users/info`, this.user).then(result => {
+      requestPut(`/membermanage/users/`, this.user).then(result => {
           if (result.data.code === '200') {
             CookieUtil.deleteCookie('user');
             CookieUtil.deleteCookie('admin');
