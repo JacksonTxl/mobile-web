@@ -10,7 +10,7 @@ export default new Router({
     {
       path: '/',
       name: '',
-			redirect: '/home'
+			redirect: '/login'
     },
     {
       path: '/home',
