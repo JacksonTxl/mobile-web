@@ -1,7 +1,7 @@
 <template>
   <div class="update">
     <mt-header title="申请升级">
-      <router-link to="/" slot="left">
+      <router-link to="/home" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="/merchant" slot="right">

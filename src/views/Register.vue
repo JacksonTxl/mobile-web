@@ -1,12 +1,12 @@
 <template>
   <div class="register">
     <mt-header title="帮助注册">
-      <router-link to="/" slot="left">
+      <router-link to="/home" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
     <section>
-      <mt-field placeholder="18916752085" v-model="register.parentAccount" readonly></mt-field>
+      <mt-field placeholder="18916752085" readonly :value="'推荐码：' + register.parentAccount"></mt-field>
     </section>
     <section>
       <mt-field placeholder="请输入商家手机号码" v-model="register.account"></mt-field>
@@ -53,6 +53,7 @@ export default {
       	TipsUtil.alert('请正确密码信息!');
       	return;
       }
+      this.register.parentAccount = this.user.account;
       requestPut(`/membermanage/users/help`, this.register).then(result => {
         if (result.data.code === '200') {
           TipsUtil.alert('注册成功!');
@@ -71,7 +72,7 @@ export default {
     this.$nextTick(() => {
       this.user = JSON.parse(CookieUtil.getCookie('user'));
       this.register.parentId = this.user.id;
-      this.register.parentAccount = '推荐码：' + this.user.account;
+      this.register.parentAccount = this.user.account;
     })
   }
 }

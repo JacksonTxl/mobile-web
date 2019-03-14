@@ -1,7 +1,7 @@
 <template>
   <div class="team">
     <mt-header :title="`我的团队（${team.allMember}人）`">
-      <router-link to="/" slot="left">
+      <router-link to="/home" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>

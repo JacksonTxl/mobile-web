@@ -1,7 +1,7 @@
 <template>
   <div class="service">
     <mt-header title="客服信息">
-      <router-link to="/" slot="left">
+      <router-link to="/home" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>

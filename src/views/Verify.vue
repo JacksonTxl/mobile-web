@@ -1,7 +1,7 @@
 <template>
   <div class="verify">
     <mt-header title="审核升级">
-      <router-link to="/" slot="left">
+      <router-link to="/home" slot="left">
         <mt-button icon="back">返回</mt-button>
       </router-link>
       <router-link to="/verify-history" slot="right">
