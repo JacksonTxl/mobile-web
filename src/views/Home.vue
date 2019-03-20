@@ -19,7 +19,7 @@
     </section>
     <section>
       <label>设置</label>
-      <mt-cell title="帮助注册" is-link to="/register" ></mt-cell>
+      <mt-cell title="帮助注册" is-link to="/register/null" ></mt-cell>
       <mt-cell title="申请升级" is-link to="/update" v-if="user.role_id != 2"></mt-cell>
       <mt-cell title="申请升级" v-else></mt-cell>
       <mt-cell title="审核升级" is-link to="/verify" ></mt-cell>

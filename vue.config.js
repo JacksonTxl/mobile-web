@@ -2,7 +2,7 @@ module.exports = {
 	devServer: {
 		proxy: {
 			'/membermanage': {
-				target: 'http://hx2mi2.natappfree.cc/',
+				target: 'http://www.youchu.vip/',
 				changeOrigin: true,
 			}
 		}

@@ -1,7 +1,10 @@
 <template>
   <div class="register">
     <mt-header title="帮助注册">
-      <router-link to="/home" slot="left">
+      <router-link to="/login" slot="left" v-if="flag">
+        <mt-button icon="back">返回</mt-button>
+      </router-link>
+      <router-link to="/home" slot="left" v-else>
         <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
@@ -28,12 +31,14 @@
 import { CookieUtil } from '../util/CookieUtil';
 import {TipsUtil} from "../util/TipsUtil";
 import {requestPut} from "../http";
+import wx from 'weixin-js-sdk';
 
 export default {
   name: 'register',
   data() {
 
     return {
+      flag: false,
       user: {},
       register: {
         parentId: '',
@@ -45,6 +50,9 @@ export default {
         confirmPassword: '',
 
       },
+      url : {
+          href: ''
+      }
     }
   },
   methods: {
@@ -53,10 +61,14 @@ export default {
       	TipsUtil.alert('请正确密码信息!');
       	return;
       }
-      this.register.parentAccount = this.user.account;
+      if (!this.flag) {
+        this.register.parentAccount = this.user.account;
+      }
       requestPut(`/membermanage/users/help`, this.register).then(result => {
         if (result.data.code === '200') {
-          TipsUtil.alert('注册成功!');
+          TipsUtil.alert('注册成功!', () => {
+            location.href = location.origin + '/#/login';
+          });
         } else {
           TipsUtil.alert(result.data.message);
         }
@@ -64,16 +76,79 @@ export default {
     },
     goRouter (router) {
       this.$router.push(router);
-    }
+    },
+    getWxAccess () {
+      requestPut(`/membermanage/wx/access`, this.url).then(result => {
+        wx.config({
+          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: result.data.appId, // 必填，公众号的唯一标识
+          timestamp:result.data.timestamp , // 必填，生成签名的时间戳
+          nonceStr:result.data.nonceStr , // 必填，生成签名的随机串
+          signature:result.data.signature ,// 必填，签名
+          jsApiList: result.data.jsApiList // 必填，需要使用的JS接口列表
+        });
+
+        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+// 									wx.updateAppMessageShareData({
+// 											title: '靓大夫会员管理系统', // 分享标题
+// 											desc: '帮助注册', // 分享描述
+// 											link: 'www.youchu.vip/?from=singlemessage', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+// 											imgUrl: '', // 分享图标
+// 											success: function () {
+// 												 TipsUtil.alert("分享成功");
+// 											}
+// 									})
+// 									 wx.updateTimelineShareData({
+// 												title: '靓大夫会员管理系统帮助注册', // 分享标题
+// 												link: 'www.youchu.vip/?from=singlemessage', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+// 												imgUrl: '', // 分享图标
+// 												success: function () {
+// 													 TipsUtil.alert("分享成功");
+// 												}
+// 										})
+          wx.updateAppMessageShareData({
+            title: '靓大夫会员管理', // 分享标题
+            link: 'http://www.youchu.vip/#/register/' + this.register.parentAccount, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            desc: '靓大夫会员帮助注册', // 分享描述
+            imgUrl: '', // 分享图标
+            success: function () {
+              // 用户点击了分享后执行的回调函数
+            }
+
+          });
+
+          wx.updateTimelineShareData({
+            title: '靓大夫会员管理', // 分享标题
+            desc: '靓大夫会员帮助注册', // 分享描述
+            link: 'http://www.youchu.vip/#/register/' + this.register.parentAccount, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: '', // 分享图标
+            success: function () {
+              // 用户点击了分享后执行的回调函数
+            }
+          });
+        });
+      })
+    },
   },
   components: {
   },
   mounted () {
     this.$nextTick(() => {
+      this.url.href=location.href.split("#")[0];
       this.user = JSON.parse(CookieUtil.getCookie('user'));
-      this.register.parentId = this.user.id;
-      this.register.parentAccount = this.user.account;
+      if (this.user) {
+        this.register.parentId = this.user.id;
+        this.register.parentAccount = this.user.account;
+      } else {
+        this.register.parentAccount = this.$route.params.id;
+        this.flag = true;
+      }
+
+      // this.getWxAccess();
     })
+
+
+
   }
 }
 </script>
