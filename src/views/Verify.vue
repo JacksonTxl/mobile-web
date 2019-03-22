@@ -88,7 +88,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.user = JSON.parse(CookieUtil.getCookie('user'));
+      this.user = JSON.parse(sessionStorage.getItem('user'));
       this.getList();
 
     })

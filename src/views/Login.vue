@@ -38,9 +38,11 @@ export default {
       }
       requestGet(`/membermanage/users/${this.account}/${this.password}`, {}).then(result => {
       	if (result.data.code === '200') {
-      	  CookieUtil.deleteCookie('user');
-          CookieUtil.setCookie('user', JSON.stringify(result.data.info), 24*60*60*1000);
           this.goRouter('home');
+          CookieUtil.deleteCookie('user');
+          CookieUtil.setCookie('user', JSON.stringify(result.data.info), 24*60*60*1000*365);
+          sessionStorage.removeItem('user');
+          sessionStorage.setItem('user', JSON.stringify(result.data.info));
         } else {
           TipsUtil.alert(result.data.message);
         }

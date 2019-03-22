@@ -82,9 +82,9 @@ export default {
       }
       requestPut(`/membermanage/users/`, this.user).then(result => {
           if (result.data.code === '200') {
-            CookieUtil.deleteCookie('user');
-            CookieUtil.deleteCookie('admin');
-            CookieUtil.deleteCookie('parent');
+            sessionStorage.removeItem('user');
+            sessionStorage.removeItem('admin');
+            sessionStorage.removeItem('parent');
             TipsUtil.alert('修改成功!', this.goRouter('login'));
           } else {
             TipsUtil.alert(result.data.message);
@@ -101,7 +101,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-        const user = JSON.parse(CookieUtil.getCookie('user'));
+        const user = JSON.parse(sessionStorage.getItem('user'));
         this.user.account = user.account;
         if (user.account) {
         	this.flag = true;

@@ -19,7 +19,7 @@
     </section>
     <section>
       <label>设置</label>
-      <mt-cell title="帮助注册" is-link to="/register/null" ></mt-cell>
+      <mt-cell title="帮助注册" is-link :to="'/register/' + user.account" ></mt-cell>
       <mt-cell title="申请升级" is-link to="/update" v-if="user.role_id != 2"></mt-cell>
       <mt-cell title="申请升级" v-else></mt-cell>
       <mt-cell title="审核升级" is-link to="/verify" ></mt-cell>
@@ -65,7 +65,7 @@ export default {
   },
   mounted () {
   	this.$nextTick(() => {
-       this.user = JSON.parse(CookieUtil.getCookie('user'));
+       this.user = JSON.parse(sessionStorage.getItem('user'));
        if (!this.user) {
        	  TipsUtil.alert('请先登录', () => {
        	  	this.goRouter('login');

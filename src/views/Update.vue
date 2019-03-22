@@ -48,18 +48,18 @@ export default {
     getParentInfo() {
       requestGet(`/membermanage/level/${this.account}`, {}).then(result => {
         if (result.data.code === '200') {
-          CookieUtil.deleteCookie('parent');
-          CookieUtil.deleteCookie('admin');
-          CookieUtil.setCookie('parent', JSON.stringify(result.data.parentInfo));
-          CookieUtil.setCookie('admin', JSON.stringify(result.data.adminInfo));
+          sessionStorage.removeItem('parent');
+          sessionStorage.removeItem('admin');
+          sessionStorage.setItem('parent', JSON.stringify(result.data.parentInfo));
+          sessionStorage.setItem('admin', JSON.stringify(result.data.adminInfo));
           this.update.currentLevel = result.data.info.currentLevel;
           this.update.nextLevel = result.data.info.nextLevel;
         } else if (result.data.code === '501') {
           this.isUpdated = true;
-          CookieUtil.deleteCookie('parent');
-          CookieUtil.deleteCookie('admin');
-          CookieUtil.setCookie('parent', JSON.stringify(result.data.parentInfo));
-          CookieUtil.setCookie('admin', JSON.stringify(result.data.adminInfo));
+          sessionStorage.removeItem('parent');
+          sessionStorage.removeItem('admin');
+          sessionStorage.setItem('parent', JSON.stringify(result.data.parentInfo));
+          sessionStorage.setItem('admin', JSON.stringify(result.data.adminInfo));
           this.update.currentLevel = result.data.info.currentLevel;
           this.update.nextLevel = result.data.info.nextLevel;
         } else {
@@ -93,7 +93,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.user = JSON.parse(CookieUtil.getCookie('user'));
+      this.user = JSON.parse(sessionStorage.getItem('user'));
       this.account = this.user.account;
       this.getParentInfo();
     })

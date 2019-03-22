@@ -46,8 +46,8 @@ export default {
   },
   mounted () {
       this.$nextTick(() => {
-          this.parent = JSON.parse(CookieUtil.getCookie('parent'));
-          this.admin = JSON.parse(CookieUtil.getCookie('admin'));
+          this.parent = JSON.parse(sessionStorage.getItem('parent'));
+          this.admin = JSON.parse(sessionStorage.getItem('admin'));
       })
   }
 }

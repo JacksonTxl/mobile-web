@@ -44,8 +44,8 @@ export default {
       }
       requestPut(`/membermanage/users/info`, this.user).then(result => {
           if (result.data.code === '200') {
-            CookieUtil.deleteCookie('user');
-            CookieUtil.setCookie('user', JSON.stringify(result.data.info), 24*60*60*1000);
+            sessionStorage.removeItem('user');
+            sessionStorage.setItem('user', JSON.stringify(result.data.info));
             TipsUtil.alert('修改成功!', () => {
               this.goRouter('setting');
             });
@@ -64,7 +64,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      const user = JSON.parse(CookieUtil.getCookie('user'));
+      const user = JSON.parse(sessionStorage.getItem('user'));
       this.user.account = user.account;
       this.user.userName = user.user_name;
       this.user.weiXin = user.id;
